@@ -79,4 +79,16 @@ public class User {
     public void setLastAuthorization(LocalDate lastAuthorization) {
         this.lastAuthorization = lastAuthorization;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", hasPremium=" + hasPremium +
+                ", lastAuthorization=" + lastAuthorization +
+                '}';
+    }
 }

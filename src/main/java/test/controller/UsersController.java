@@ -51,7 +51,6 @@ public class UsersController {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
     }
-
 }
 
 
