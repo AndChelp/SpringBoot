@@ -21,8 +21,7 @@ public class UsersController {
     }
 
     @PostMapping(value = "/user")
-    public ResponseEntity<?> create(@RequestBody User user) {
-        System.out.println("LOGCont");
+    public ResponseEntity<?> create(@Valid @RequestBody User user) {
         userService.createUser(user);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
