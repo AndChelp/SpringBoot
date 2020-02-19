@@ -1,13 +1,13 @@
 package test.log;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import test.model.User;
+import test.response.Response;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -19,7 +19,7 @@ public class AOPLogger {
 
     @Before(value = "execution(* test.controller.UsersController.create(..))")
     public void logCreateUserBefore(JoinPoint joinPoint) {
-        log.info("Create "+joinPoint.getArgs()[0]);
+        log.info("Create " + joinPoint.getArgs()[0]);
     }
 
     @Before(value = "execution(* test.controller.UsersController.read())")
@@ -38,7 +38,7 @@ public class AOPLogger {
 
     @Before(value = "execution(* test.controller.UsersController.read(int))")
     public void logReadUserBefore(JoinPoint joinPoint) {
-        log.info("Read user with id " + joinPoint.getArgs()[0] +"...");
+        log.info("Read user with id " + joinPoint.getArgs()[0] + "...");
     }
 
     @AfterReturning(value = "execution(* test.controller.UsersController.read(..))", returning = "result")
@@ -50,8 +50,16 @@ public class AOPLogger {
             log.warning("User is not found!");
     }
 
+    @AfterReturning(value = "execution(* test.controller.UsersController.delete(..))", returning = "result")
+    public void logDeleteUserReturn(ResponseEntity<Response> result) {
+        Response response = result.getBody();
 
+        if (response != null) {
+            log.info("Execute delete()... " + response.toString());
+        }
+    }
 }
+
 
 
 

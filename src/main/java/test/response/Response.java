@@ -1,27 +1,28 @@
 package test.response;
 
+import org.springframework.http.HttpStatus;
+
 public class Response {
-    private int statusCode;
+    private HttpStatus statusCode;
     private String statusMsg;
 
-    public Response(int statusCode, String statusMsg) {
+    public Response(HttpStatus statusCode, String statusMsg) {
         this.statusCode = statusCode;
         this.statusMsg = statusMsg;
     }
 
     @Override
     public String toString() {
-        return "Response{" +
+        return "Response: " +
                 "statusCode=" + statusCode +
-                ", statusMsg='" + statusMsg + '\'' +
-                '}';
+                ", statusMsg='" + statusMsg;
     }
 
-    public int getStatusCode() {
+    public HttpStatus getStatusCode() {
         return statusCode;
     }
 
-    public void setStatusCode(int statusCode) {
+    public void setStatusCode(HttpStatus statusCode) {
         this.statusCode = statusCode;
     }
 

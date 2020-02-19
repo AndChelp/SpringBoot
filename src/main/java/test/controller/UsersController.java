@@ -47,9 +47,9 @@ public class UsersController {
     public ResponseEntity<Response> delete(@PathVariable(name = "id") int id) {
         try {
             userService.deleteUserByID(id);
-            return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "User successfully deleted!"), HttpStatus.OK);
+            return new ResponseEntity<>(new Response(HttpStatus.OK, "User with id" + id +" was successfully deleted!"), HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>(new Response(HttpStatus.NOT_MODIFIED, "The user with this ID does not exist!"), HttpStatus.NOT_MODIFIED);
         }
     }
 }

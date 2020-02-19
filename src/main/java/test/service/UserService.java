@@ -1,10 +1,12 @@
 package test.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.object.StoredProcedure;
 import org.springframework.stereotype.Service;
 import test.model.User;
 import test.repository.UsersRepository;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 
 @Service
@@ -18,6 +20,7 @@ public class UserService {
 
     public void createUser(User user) {
         usersRepository.save(user);
+
     }
 
     public List<User> findAll(){
