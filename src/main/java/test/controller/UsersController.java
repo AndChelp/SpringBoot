@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import test.model.User;
 import test.service.UserService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController

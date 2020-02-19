@@ -17,7 +17,6 @@ public class UserService {
     }
 
     public void createUser(User user) {
-        System.out.println("LOGServ");
         usersRepository.save(user);
     }
 
