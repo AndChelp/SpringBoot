@@ -9,6 +9,14 @@ public class Response {
         this.statusMsg = statusMsg;
     }
 
+    @Override
+    public String toString() {
+        return "Response{" +
+                "statusCode=" + statusCode +
+                ", statusMsg='" + statusMsg + '\'' +
+                '}';
+    }
+
     public int getStatusCode() {
         return statusCode;
     }

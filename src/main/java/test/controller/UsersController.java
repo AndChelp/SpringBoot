@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import test.model.User;
+import test.response.Response;
 import test.service.UserService;
 
 import javax.validation.Valid;
@@ -43,10 +44,10 @@ public class UsersController {
     }
 
     @DeleteMapping(value = "/user/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
+    public ResponseEntity<Response> delete(@PathVariable(name = "id") int id) {
         try {
             userService.deleteUserByID(id);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(new Response(HttpStatus.OK.value(), "User successfully deleted!"), HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
