@@ -5,10 +5,16 @@ import org.springframework.stereotype.Service;
 import test.model.User;
 import test.repository.UsersRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.StoredProcedureQuery;
 import java.util.List;
 
 @Service
 public class UserService {
+    private static EntityManagerFactory factory = Persistence.createEntityManagerFactory("jpa-db");
+    private static EntityManager entityManager = factory.createEntityManager();
     @Autowired
     private final UsersRepository usersRepository;
 
@@ -22,6 +28,8 @@ public class UserService {
     }
 
     public List<User> findAll() {
+        StoredProcedureQuery selectAllUsers = entityManager.createNamedStoredProcedureQuery("selectAllUsers");
+        //System.out.println(selectAllUsers.getResultList());
         return usersRepository.findAll();
     }
 

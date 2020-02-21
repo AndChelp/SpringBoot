@@ -8,9 +8,15 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+
 @Data
 @Entity
 @Table(name = "users")
+@NamedStoredProcedureQueries({@NamedStoredProcedureQuery(
+        name = "selectAllUsers",
+        procedureName = "select_all_users",
+        resultClasses = {User.class}
+)})
 public class User {
 
     @Id
