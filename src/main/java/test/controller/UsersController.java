@@ -14,42 +14,42 @@ import java.util.List;
 
 @RestController
 public class UsersController {
+    @Autowired
     private final UserService userService;
 
-    @Autowired
     public UsersController(UserService userService) {
         this.userService = userService;
     }
 
     @PostMapping(value = "/user")
-    public ResponseEntity<?> create(@Valid @RequestBody User user) {
+    public ResponseEntity<Response> create(@Valid @RequestBody User user) {
         userService.createUser(user);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(new Response(HttpStatus.CREATED, user.toString()), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/users")
-    public ResponseEntity<List<User>> read() {
+    public ResponseEntity<Response> read() {
         final List<User> users = userService.findAll();
         return users != null && !users.isEmpty()
-                ? new ResponseEntity<>(users, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                ? new ResponseEntity<>(new Response(HttpStatus.OK, users.toString()), HttpStatus.OK)
+                : new ResponseEntity<>(new Response(HttpStatus.NOT_FOUND, "No users found!"), HttpStatus.NOT_FOUND);
     }
 
     @GetMapping(value = "/user/{id}")
-    public ResponseEntity<User> read(@PathVariable(name = "id") int id) {
+    public ResponseEntity<Response> read(@PathVariable(name = "id") int id) {
         final User user = userService.findUserByID(id);
         return user != null
-                ? new ResponseEntity<>(user, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                ? new ResponseEntity<>(new Response(HttpStatus.OK, user.toString()), HttpStatus.OK)
+                : new ResponseEntity<>(new Response(HttpStatus.NOT_FOUND, "The user with ID " + id + " does not exist!"), HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping(value = "/user/{id}")
     public ResponseEntity<Response> delete(@PathVariable(name = "id") int id) {
         try {
             userService.deleteUserByID(id);
-            return new ResponseEntity<>(new Response(HttpStatus.OK, "User with id" + id +" was successfully deleted!"), HttpStatus.OK);
+            return new ResponseEntity<>(new Response(HttpStatus.OK, "User successfully deleted!"), HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
-            return new ResponseEntity<>(new Response(HttpStatus.NOT_MODIFIED, "The user with this ID does not exist!"), HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>(new Response(HttpStatus.NOT_MODIFIED, "The user with ID " + id + " does not exist!"), HttpStatus.NOT_MODIFIED);
         }
     }
 }

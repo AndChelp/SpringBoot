@@ -1,11 +1,14 @@
 package test.model;
 
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+@Data
 @Entity
 @Table(name = "users")
 public class User {
@@ -14,11 +17,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 50)
     @Column(name = "firstname")
     private String firstName;
 
-    @Size(min = 2, max = 30)
+    @Size(min = 2, max = 50)
     @Column(name = "lastname")
     private String lastName;
 
@@ -32,60 +35,12 @@ public class User {
     @Column(name = "lastauthorization")
     private LocalDate lastAuthorization;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public short getAge() {
-        return age;
-    }
-
-    public void setAge(short age) {
-        this.age = age;
-    }
-
-    public boolean isHasPremium() {
-        return hasPremium;
-    }
-
-    public void setHasPremium(boolean hasPremium) {
-        this.hasPremium = hasPremium;
-    }
-
-    public LocalDate getLastAuthorization() {
-        return lastAuthorization;
-    }
-
-    public void setLastAuthorization(LocalDate lastAuthorization) {
-        this.lastAuthorization = lastAuthorization;
-    }
-
     @Override
     public String toString() {
-        return "User{" +
+        return "{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName +
+                ", lastName='" + lastName +
                 ", age=" + age +
                 ", hasPremium=" + hasPremium +
                 ", lastAuthorization=" + lastAuthorization +
