@@ -11,11 +11,12 @@ import test.response.Response;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    /*@ExceptionHandler(Exception.class)
     public ResponseEntity<Response> handleAllExceptions(Exception ex) {
         Response response = new Response(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        System.out.println(Arrays.toString(ex.getStackTrace()));
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<Response> handleInvalidMethodsExceptions(Exception ex) {

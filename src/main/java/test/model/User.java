@@ -3,50 +3,36 @@ package test.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
-
+import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "users")
-@NamedStoredProcedureQueries({@NamedStoredProcedureQuery(
-        name = "selectAllUsers",
-        procedureName = "select_all_users",
-        resultClasses = {User.class}
-)})
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Size(min = 2, max = 50)
-    @Column(name = "firstname")
     private String firstName;
 
     @Size(min = 2, max = 50)
-    @Column(name = "lastname")
     private String lastName;
 
     @Min(14)
-    @Column(name = "age")
-    private short age;
+    @Max(150)
+    private int age;
 
-    @Column(name = "haspremium")
     private boolean hasPremium;
 
-    @Column(name = "lastauthorization")
-    private LocalDate lastAuthorization;
+    private Date lastAuthorization;
 
     @Override
     public String toString() {
         return "{" +
                 "id=" + id +
-                ", firstName='" + firstName +
-                ", lastName='" + lastName +
+                ", firstName=" + firstName +
+                ", lastName=" + lastName +
                 ", age=" + age +
                 ", hasPremium=" + hasPremium +
                 ", lastAuthorization=" + lastAuthorization +
