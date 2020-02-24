@@ -8,10 +8,7 @@ import test.model.User;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,13 +90,21 @@ public class UsersDAOImpl extends JdbcDaoSupport implements UsersDAO {
     public boolean deleteUserByID(long id) {
         try {
             @Cleanup
-            CallableStatement statement = getConnection().prepareCall("CALL delete_user(?)");
-            statement.setLong(1, id);
+            CallableStatement statement = getConnection().prepareCall("{ ? =  CALL exists_user(?)}");
+            statement.registerOutParameter(1, Types.BOOLEAN);
+            statement.setLong(2, id);
             statement.execute();
+            if (statement.getBoolean(1)) {
+                statement.close();
+                statement = getConnection().prepareCall("CALL delete_user(?)");
+                statement.setLong(1, id);
+                statement.execute();
+                return true;
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return false;
     }
 }
 
