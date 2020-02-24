@@ -1,5 +1,6 @@
 package test.dao;
 
+import lombok.Cleanup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
@@ -7,10 +8,12 @@ import test.model.User;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
+import java.sql.CallableStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class UsersDAOImpl extends JdbcDaoSupport implements UsersDAO {
@@ -22,44 +25,81 @@ public class UsersDAOImpl extends JdbcDaoSupport implements UsersDAO {
         setDataSource(dataSource);
     }
 
-
     @Override
     public void insert(User user) {
-        String sqlQuery = "INSERT INTO users (firstname, lastname, age, haspremium, lastauthorization) values (?, ?, ?, ?, ?)";
-        if (getJdbcTemplate() != null) {
-            getJdbcTemplate().update(sqlQuery, user.getFirstName(), user.getLastName(), user.getAge(), user.isHasPremium(), user.getLastAuthorization());
+        try {
+            @Cleanup
+            CallableStatement statement = getConnection().prepareCall("CALL add_user(?,?,?,?,?)");
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setShort(3, user.getAge());
+            statement.setBoolean(4, user.isHasPremium());
+            statement.setDate(5, user.getLastAuthorization());
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public List<User> getAllUsers() {
-        String sqlQuery = "SELECT * FROM users";
-        if (getJdbcTemplate() != null) {
-            List<Map<String, Object>> rows = getJdbcTemplate().queryForList(sqlQuery);
-            List<User> result = new ArrayList<>();
-            for (Map<String, Object> row : rows) {
+        List<User> users = new ArrayList<>();
+        try {
+            @Cleanup
+            Statement statement = getConnection().createStatement();
+            @Cleanup
+            ResultSet rs = statement.executeQuery("SELECT * FROM select_all_users()");
+            while (rs.next()) {
                 User user = new User();
-                user.setId((int) row.get("id"));
-                user.setFirstName((String) row.get("firstname"));
-                user.setLastName((String) row.get("lastname"));
-                user.setAge((int) row.get("age"));
-                user.setHasPremium((boolean) row.get("haspremium"));
-                user.setLastAuthorization((Date) row.get("lastauthorization"));
-                result.add(user);
+                user.setId(rs.getLong("id"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setLastName(rs.getString("lastname"));
+                user.setAge(rs.getShort("age"));
+                user.setHasPremium(rs.getBoolean("haspremium"));
+                user.setLastAuthorization(rs.getDate("lastauthorization"));
+                users.add(user);
             }
-            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null;
+        return users;
     }
 
     @Override
     public User getUserByID(long id) {
-        return null;
+        User user = null;
+        try {
+            @Cleanup
+            CallableStatement statement = getConnection().prepareCall("SELECT * FROM select_user(?)");
+            statement.setLong(1, id);
+            @Cleanup
+            ResultSet rs = statement.executeQuery();
+            if (rs.next() && rs.getLong("id") != 0) {
+                user = new User();
+                user.setId(rs.getLong("id"));
+                user.setFirstName(rs.getString("firstname"));
+                user.setLastName(rs.getString("lastname"));
+                user.setAge(rs.getShort("age"));
+                user.setHasPremium(rs.getBoolean("haspremium"));
+                user.setLastAuthorization(rs.getDate("lastauthorization"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return user;
     }
 
     @Override
     public boolean deleteUserByID(long id) {
-        return false;
+        try {
+            @Cleanup
+            CallableStatement statement = getConnection().prepareCall("CALL delete_user(?)");
+            statement.setLong(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
 

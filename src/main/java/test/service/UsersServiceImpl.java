@@ -15,7 +15,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public void insert(User user) {
-        usersDAO.insert(user);
+            usersDAO.insert(user);
     }
 
     @Override
@@ -25,11 +25,11 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public User getUserByID(long id) {
-        return null;
+        return usersDAO.getUserByID(id);
     }
 
     @Override
     public boolean deleteUserByID(long id) {
-        return false;
+        return usersDAO.deleteUserByID(id);
     }
 }

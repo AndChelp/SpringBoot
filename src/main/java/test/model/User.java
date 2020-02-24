@@ -6,12 +6,12 @@ import lombok.Data;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.sql.Date;
 
 @Data
 public class User {
 
-    private int id;
+    private long id;
 
     @Size(min = 2, max = 50)
     private String firstName;
@@ -21,7 +21,7 @@ public class User {
 
     @Min(14)
     @Max(150)
-    private int age;
+    private short age;
 
     private boolean hasPremium;
 
