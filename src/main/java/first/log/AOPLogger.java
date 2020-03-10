@@ -1,4 +1,4 @@
-package test.log;
+package first.log;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -6,7 +6,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import test.response.Response;
+import first.response.Response;
 
 import java.util.logging.Logger;
 

@@ -1,9 +1,9 @@
-package test.service;
+package first.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import test.dao.UsersDAO;
-import test.model.User;
+import first.dao.UsersDAO;
+import first.model.User;
 
 import java.util.List;
 

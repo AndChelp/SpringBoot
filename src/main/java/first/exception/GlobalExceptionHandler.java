@@ -1,4 +1,4 @@
-package test.exception;
+package first.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,7 +7,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import test.response.Response;
+import first.response.Response;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

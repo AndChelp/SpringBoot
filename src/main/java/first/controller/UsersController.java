@@ -1,12 +1,12 @@
-package test.controller;
+package first.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import test.model.User;
-import test.response.Response;
-import test.service.UsersService;
+import first.model.User;
+import first.response.Response;
+import first.service.UsersService;
 
 import javax.validation.Valid;
 import java.util.List;

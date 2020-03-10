@@ -1,6 +1,6 @@
-package test.dao;
+package first.dao;
 
-import test.model.User;
+import first.model.User;
 
 import java.util.List;
 

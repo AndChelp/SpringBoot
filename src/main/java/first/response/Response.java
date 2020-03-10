@@ -1,4 +1,4 @@
-package test.response;
+package first.response;
 
 import org.springframework.http.HttpStatus;
 

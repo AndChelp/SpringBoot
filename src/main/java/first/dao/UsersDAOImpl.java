@@ -1,10 +1,10 @@
-package test.dao;
+package first.dao;
 
 import lombok.Cleanup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.stereotype.Repository;
-import test.model.User;
+import first.model.User;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
